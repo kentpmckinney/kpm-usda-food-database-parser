@@ -152,6 +152,7 @@ progress = 0
 for food in FoodList:
     progress += 1
     sys.stdout.write("\rProessing " + str(progress) + " of " + str(numFoods))
+    fdcId = food[0]
     dataType = food[1]
 
     if optionKeepBrandedFoods == False:
@@ -170,15 +171,27 @@ for food in FoodList:
     dataString += dataType
     dataString += "~"
 
-    # Add the nutrient contents of the current food to the data string
-    for nutrient in FoodNutrientList:
-        nutFdcId = nutrient[1]
-        nutId = nutrient[2]
-        if nutFdcId == fdcId and nutrients.isIncluded(nutId) == True:
-            amount = nutrient[3]
-            dataString += amount
-            dataString += "~"
-    
+    # Get a list of the nutrient content for this food
+    nutrientContent = []
+    for item in FoodNutrientList:
+        itemFdcId = item[1]
+        if itemFdcId == fdcId:
+            nutrientContent.append(item)
+
+    # Iterate through all nutrients and add amounts for this food's nutrients
+    for nutrient in nutrients.nutrients:
+        nutId = nutrient.id
+        if nutrient.include == True:
+            addedAmount = False
+            for item in nutrientContent:
+                itemId = item[2]
+                if itemId == nutId:
+                    amount = item[3]
+                    dataString += amount + "~"
+                    addedAmount = True
+            if addedAmount == False:
+                dataString += "~"
+
     # Add a newline character to the end of the data string
     dataString += "\n"
 
