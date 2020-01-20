@@ -258,11 +258,16 @@ for food in FoodList:
     dataString += "~"
 
     # Get a list of the nutrient content for this food
+    # The list is sorted so if appends stop then no further need to loop
+    append = False
     nutrientContent = []
     for item in FoodNutrientList:
         itemFdcId = item[1]
         if itemFdcId == fdcId:
             nutrientContent.append(item)
+            append = True
+        elif append == True:
+                break
 
     # Iterate through all nutrients and add amounts for this food's nutrients
     for nutrient in nutrients.nutrients:
