@@ -232,7 +232,7 @@ for nutrient in nutrients.nutrients:
 dstData.write(dstHeader)
 
 # Iterate through each food in the source data file "food.csv"
-# Limit to 10 items for development/testing purposes
+# Limit to 3000 items for development/testing purposes
 index = 0
 progress = 0
 for food in FoodList:
@@ -245,7 +245,7 @@ for food in FoodList:
         if dataType == "branded_food": continue
 
     index = index + 1
-    if index >= 10:
+    if index >= 1000:
         break
 
     fdcId = food[0]
@@ -258,13 +258,14 @@ for food in FoodList:
     dataString += "~"
 
     # Get a list of the nutrient content for this food
-    # The list is sorted so if appends stop then no further need to loop
+    # Break out of the loop once relevant data has been parsed
     append = False
     nutrientContent = []
     for item in FoodNutrientList:
         itemFdcId = item[1]
         if itemFdcId == fdcId:
             nutrientContent.append(item)
+            FoodNutrientList.remove(item) # improve parsing speed
             append = True
         elif append == True:
                 break
