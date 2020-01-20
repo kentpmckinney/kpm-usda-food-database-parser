@@ -13,9 +13,11 @@
 #
 ###########################################################################
 
+# import pandas as pd
 import csv
-import sys
 import os
+import sys
+import datetime
 
 optionFileInventoryCheck = True
 optionKeepBrandedFoods = False
@@ -76,6 +78,7 @@ dstPath  = "/Volumes/Data/Projects/Diet/data/dst/"
 print("USDA Food Database Parser for JavaScript v0.0")
 print("Source Path: " + srcPath)
 print("Destination Path: " + dstPath)
+print("Start: " + str(datetime.datetime.now()))
 
 # Report the combined size of original set of data files
 size = 0
@@ -88,20 +91,36 @@ for filename in os.listdir(srcPath):
 size = size/1000/1000
 print("Source USDA data file size: " + str(size) + " MB")
 
-# Open source data files
-srcFoods = open(srcPath + "food.csv", "r") # food.csv | list of foods
-srcNutrients = open(srcPath + "food_nutrient.csv", "r") # food_nutrient.csv | nutrient content of foods
-srcNutrientList = open(srcPath + "nutrient.csv", "r") # nutrient.csv | list of nutrients
-
 # Create/Open destination data file
 dstData = open(dstPath + "data.txt", "w")
 
+print("Loading source data files nutrient.csv, food.csv, and food_nutrient.csv...")
+
+# Read and sort data from nutrient.csv (list of nutrients)
+srcNutrientList = open(srcPath + "nutrient.csv", "r")
+null = srcNutrientList.readline() # discard header
+srcNutrientListInMemory = srcNutrientList.read().splitlines()
+nutrientListReader = csv.reader(srcNutrientListInMemory, delimiter=',', quotechar='"')
+nutrientList = sorted(nutrientListReader, key=lambda row: row[0], reverse=False)
+
+# Read and sort data from food.csv (list of foods)
+srcFoods = open(srcPath + "food.csv", "r")
+null = srcFoods.readline() # discard header
+srcFoodsInMemory = srcFoods.read().splitlines()
+FoodReader = csv.reader(srcFoodsInMemory, delimiter=',', quotechar='"')
+FoodList = sorted(FoodReader, key=lambda row: row[0], reverse=False)
+numFoods = sum(1 for line in FoodList)
+
+# Read and sort data from food_nutrient.csv (nutrient content of foods)
+srcNutrients = open(srcPath + "food_nutrient.csv", "r")
+null = srcNutrients.readline() # discard header
+srcNutrientsInMemory = srcNutrients.read().splitlines()
+FoodNutrientReader = csv.reader(srcNutrientsInMemory, delimiter=',', quotechar='"')
+FoodNutrientList = sorted(FoodNutrientReader, key=lambda row: row[1], reverse=False)
+
 # Import list of nutrients
 nutrients = Nutrients()
-csvNutrientList = csv.reader(srcNutrientList, delimiter=',')
-srcNutrientList.seek(0)
-null = srcNutrientList.readline()
-for nutrient in csvNutrientList:
+for nutrient in nutrientList:
     id = nutrient[0]
     name = nutrient[1]
     unit = nutrient[2]
@@ -123,11 +142,6 @@ for nutrient in nutrients.nutrients:
 #region Parse
 ###########################################################################
 
-# Create CSV readers for source data files
-csvSrcFoods = csv.reader(srcFoods, delimiter=',')
-csvSrcNutrients = csv.reader(srcNutrients, delimiter=',')
-numFoods = sum(1 for line in csvSrcFoods)
-
 # Add the dstHeader to the destination data file
 dstData.write(dstHeader)
 
@@ -135,20 +149,13 @@ dstData.write(dstHeader)
 # Limit to 10 items for development/testing purposes
 index = 0
 progress = 0
-srcFoods.seek(0)
-null = srcFoods.readline()
-for food in csvSrcFoods:
+for food in FoodList:
     progress += 1
     sys.stdout.write("\rProessing " + str(progress) + " of " + str(numFoods))
     dataType = food[1]
 
     if optionKeepBrandedFoods == False:
         if dataType == "branded_food": continue
-
-    # discard food items of type "sample_food"
-    if dataType == "sample_food": continue
-    if dataType == "sub_sample_food": continue
-    if dataType == "market_acquisition": continue
 
     index = index + 1
     if index >= 10:
@@ -164,9 +171,7 @@ for food in csvSrcFoods:
     dataString += "~"
 
     # Add the nutrient contents of the current food to the data string
-    srcNutrients.seek(0)
-    null = srcNutrients.readline()
-    for nutrient in csvSrcNutrients:
+    for nutrient in FoodNutrientList:
         nutFdcId = nutrient[1]
         nutId = nutrient[2]
         if nutFdcId == fdcId and nutrients.isIncluded(nutId) == True:
@@ -190,6 +195,8 @@ for food in csvSrcFoods:
 
 #region Post-Parse
 ###########################################################################
+
+print("\nEnd: " + str(datetime.datetime.now()))
 
 # Report the combined size of modified set of data files
 size = 0
