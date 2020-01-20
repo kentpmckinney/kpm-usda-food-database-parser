@@ -132,6 +132,9 @@ for nutrient in nutrients.nutrients:
     if nutrient.include == True:
         dstHeader += nutrient.name + "~"
 
+# Remove the extra trailing ~ character from the header
+    dstHeader = dstHeader.rstrip('~')
+
 ###########################################################################
 #endregion
 
@@ -191,6 +194,9 @@ for food in FoodList:
                     addedAmount = True
             if addedAmount == False:
                 dataString += "~"
+
+    # Remove the extra trailing ~ character from the data string
+    dataString = dataString.rstrip('~')
 
     # Add a newline character to the end of the data string
     dataString += "\n"
