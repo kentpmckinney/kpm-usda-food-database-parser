@@ -1,8 +1,23 @@
 # USDA Food Database Parser
 
-Python script to parse USDA food database CSV files and convert the data into a format which is optimized for use in a JavaScript application.
+This is a Python script to experiment with tailoring and optimizing United States Department of Agriculture (USDA) food database files for use in a JavaScript application.
 
-The size of the USDA database is curretly greater than 400MB. There is a web API available, but it 
+## About this Project
+
+The United States Department of Agriculture (USDA) publishes a food database with the nutrient contents of many foods commonly found in the United States.
+
+There are currently two ways to access USDA food data:
+
+* Statically include the data files within an application
+* Use a web API to pull the data from a server
+
+Either of these methods can be used exlusively, or they can be combined.
+
+The size of the USDA database files is currently greater than 400MB, which is a substantial footprint. Using a web API would minimize the footprint, but it would create a dependency on a network service and consume network resources.
+
+One question worth exploring is: how much of the source data will the target application actually need, and can the rest be stripped away? It also follows to wonder whether there's a more compact way to store the data and whether the data can be formatted to load more quickly and to use computing resources more efficiently.
+
+This project explores these questions in depth.
 
 ## Getting Started
 
@@ -22,8 +37,10 @@ This script was developed on MacOS running Python 3.8 using the April 2019 versi
 
 ```
 MacOS
+500MB+ available memory
+Ability to run a script for up to 24 hours
 Python 3.8
-USDA Food Database April 2019
+USDA Food Database (April 2019)
 ```
 
 ## Authors
