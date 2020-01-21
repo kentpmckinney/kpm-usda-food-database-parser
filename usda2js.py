@@ -212,7 +212,7 @@ nutrients.exclude("2025")
 nutrients.exclude("2026")
 
 # Create a header row for the destination data file
-dstHeader = ""
+dstHeader = "Description~Data Type~"
 for nutrient in nutrients.nutrients:
     if nutrient.include == True:
         dstHeader += nutrient.name + "~"
