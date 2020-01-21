@@ -18,6 +18,7 @@ import csv
 import os
 import sys
 import datetime
+import re
 
 optionFileInventoryCheck = True
 optionKeepBrandedFoods = False
@@ -119,10 +120,11 @@ FoodNutrientReader = csv.reader(srcNutrientsInMemory, delimiter=',', quotechar='
 FoodNutrientList = sorted(FoodNutrientReader, key=lambda row: row[1], reverse=False)
 
 # Import list of nutrients
+r = re.compile(r'\(.*?\)|cis-|,\s.*?(?=~)|\(.*?(?=~)|\/.*?(?=~)')
 nutrients = Nutrients()
 for nutrient in nutrientList:
     id = nutrient[0]
-    name = nutrient[1]
+    name = r.sub('', nutrient[1])
     unit = nutrient[2]
     nutrients.add(id, name, unit)
 
@@ -216,7 +218,8 @@ for nutrient in nutrients.nutrients:
         dstHeader += nutrient.name + "~"
 
 # Remove the extra trailing ~ character from the header
-    dstHeader = dstHeader.rstrip('~')
+if dstHeader.endswith('~'):
+    dstHeader = dstHeader[:-1]
 
 ###########################################################################
 #endregion
@@ -245,7 +248,7 @@ for food in FoodList:
         if dataType == "branded_food": continue
 
     index = index + 1
-    if index >= 1000:
+    if index >= 100:
         break
 
     fdcId = food[0]
@@ -285,7 +288,8 @@ for food in FoodList:
                 dataString += "~"
 
     # Remove the extra trailing ~ character from the data string
-    dataString = dataString.rstrip('~')
+    if dataString.endswith('~'):
+        dataString = dataString[:-1]
 
     # Add a newline character to the end of the data string
     dataString += "\n"
