@@ -92,6 +92,10 @@ for filename in os.listdir(srcPath):
 print("Source USDA data file size: " + str(size) + " MB")
 print("Loading source data files...")
 
+# File inventory check
+if optionFileInventoryCheck == True:
+    TODO=True
+
 # Read and sort data from nutrient.csv (list of nutrients)
 with open(srcPath + "nutrient.csv", "r") as srcNutrientList: 
     null = srcNutrientList.readline() # discard header
@@ -215,6 +219,11 @@ for nutrient in nutrients.nutrients:
 # Remove the extra trailing ~ character from the header
 if dstHeader.endswith('~'):
     dstHeader = dstHeader[:-1]
+
+# Hide the mouse cursor so that it does not display on the terminal
+if os.name == 'posix':
+    sys.stdout.write("\033[?25l")
+    sys.stdout.flush()
 
 ###########################################################################
 #endregion
