@@ -1,3 +1,4 @@
+<!-- Category: Original;Python -->
 # USDA Food Database Parser
 
 This is a Python script to experiment with tailoring and optimizing United States Department of Agriculture (USDA) food database files for use in a JavaScript application.
@@ -48,5 +49,3 @@ USDA Food Database (April 2019)
 **Kent McKinney** - [GitHub](https://github.com/kentpmckinney)
 
 ## License
-
-This project is licensed under the GPlv3 License - see the [LICENSE.md](LICENSE.md) file for details
