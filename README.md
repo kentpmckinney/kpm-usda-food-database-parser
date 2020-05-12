@@ -3,8 +3,6 @@
 
 This is a Python script to experiment with tailoring and optimizing United States Department of Agriculture (USDA) food database files for use in a JavaScript application.
 
-## About this Project
-
 The United States Department of Agriculture (USDA) publishes a food database with the nutrient contents of many foods commonly found in the United States.
 
 There are currently two ways to access USDA food data:
@@ -20,7 +18,28 @@ One question worth exploring is: how much of the source data will the target app
 
 This project explores these questions in depth.
 
-## Getting Started
+https://github.com/kentpmckinney/kpm-usda-food-database-parser
+
+## Previewing this Project
+
+This project is hosted at: https://kentpmckinney.github.io/kpm-usda-food-database-parser
+
+## Working with the Source Code
+
+The following instructions explain how to set up a development environment for this project on MacOS. Steps will differ depending on the operating system.
+
+### Prerequisites
+
+The following software must be installed and properly configured on the target machine. 
+
+```
+Python 3
+```
+```
+Git (optional but recommended)
+```
+
+### Setting up a Development Environment
 
 1. Download a copy of this `usda2js.py` to a local folder.
 2. Download a copy of the April 2019 version of the [USDA Food Database](https://fdc.nal.usda.gov/download-datasets.html).
@@ -32,20 +51,26 @@ This project explores these questions in depth.
 python3 ./usda2js.py
 ```
 
-### Prerequisites
+## Running Automated Tests
 
-This script was developed on MacOS running Python 3.8 using the April 2019 version of the USDA Food Database. Use on other platforms or with other versions of Python or the food database may require changes to the source.
+how to run the automated tests
 
 ```
-MacOS
-500MB+ available memory
-Ability to run a script for up to 24 hours
-Python 3.8
-USDA Food Database (April 2019)
+example
 ```
+
+## Deployment
+
+
+
+## Technologies Used
+
+* Python
 
 ## Authors
 
-**Kent McKinney** - [GitHub](https://github.com/kentpmckinney)
+Kent McKinney - [GitHub](https://github.com/kentpmckinney) - [LinkedIn](https://www.linkedin.com/in/kentpmckinney/)
 
-## License
+### Copyright &copy; 2020 Kent P. McKinney
+
+## Acknowledgments
