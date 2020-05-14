@@ -51,17 +51,9 @@ Git (optional but recommended)
 python3 ./usda2js.py
 ```
 
-## Running Automated Tests
-
-how to run the automated tests
-
-```
-example
-```
-
 ## Deployment
 
-
+Run the script against the USDA dataset and then deploy the resulting text files
 
 ## Technologies Used
 
@@ -74,3 +66,5 @@ Kent McKinney - [GitHub](https://github.com/kentpmckinney) - [LinkedIn](https://
 ### Copyright &copy; 2020 Kent P. McKinney
 
 ## Acknowledgments
+
+https://fdc.nal.usda.gov/download-datasets.html

@@ -235,14 +235,28 @@ if os.name == 'posix':
 #region Parse
 ###########################################################################
 
-# Create/Open destination data file
-with open(dstPath + "data.txt", "w") as dstData: 
+# Create/Open destination data file for the food.txt output file
+with open(dstPath + "food.txt", "w") as dstData:
+    dataString = ""
+    for food in foodList:
+        dataType = food[1]
+        if optionKeepBrandedFoods == False:
+            if dataType == "branded_food": continue
+        description = food[2]
+        dataString += description + "\n"
+
+    # Append the data string to the destination file
+    dstData.write(dataString)
+
+quit()
+
+# Create/Open destination data file for nut.txt output file
+with open(dstPath + "nut.txt", "w") as dstData: 
 
     # Add the dstHeader to the destination data file
     dstData.write(dstHeader)
 
     # Iterate through each food in the source data file "food.csv"
-    index = 0
     progress = 0
     for food in foodList:
         # Update progress indicator in the terminal
@@ -253,11 +267,6 @@ with open(dstPath + "data.txt", "w") as dstData:
 
         if optionKeepBrandedFoods == False:
             if dataType == "branded_food": continue
-
-        # Limit to 100 items for development/testing purposes
-        index = index + 1
-        if index >= 100:
-            break
         
         fdcId = food[0]
         description = food[2]
